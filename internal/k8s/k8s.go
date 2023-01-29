@@ -38,7 +38,7 @@ func (k8sClient *KubernetesClient) CheckPodsInDefaultNamespace() error {
 
 	for _, item := range pods.Items {
 		if item.Namespace == "default" {
-			return errors.New("there should not have pods in default namespace [link reference #100]")
+			return errors.New(pkg.DefaultNamespace)
 		}
 	}
 
@@ -64,9 +64,7 @@ func (k8sClient *KubernetesClient) CheckExposeControlPlane() error {
 				}
 
 				if pkg.IsPublicIP(ipAddress) {
-					return errors.New(
-						"control plane should not be exposed with a public IP address [link reference #101]",
-					)
+					return errors.New(pkg.ExposedControlPlane)
 				}
 			}
 		}
