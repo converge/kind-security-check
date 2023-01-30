@@ -42,6 +42,11 @@ func TestIsPublicIP(t *testing.T) {
 			wantErr: true,
 		},
 		{
+			ip:      "127.0.0.1",
+			want:    false,
+			wantErr: false,
+		},
+		{
 			ip:      "",
 			want:    false,
 			wantErr: true,
