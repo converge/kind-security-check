@@ -40,4 +40,8 @@ func main() {
 		log.Error().Err(err).Msg("")
 	}
 
+	if err == nil {
+		log.Info().Msg("Kubernetes cluster is secure")
+	}
+
 }

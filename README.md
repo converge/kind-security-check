@@ -2,6 +2,11 @@
 
 This is a simple tool to check if your Kubernetes ([Kind](http://kind.sigs.k8s.io)) cluster is secure.
 
+## Current validations
+
+- [x] [Default namespace](./docs/reference.md#default-namespace-100)
+- [x] [Expose control plane](./docs/reference.md#exposed-control-plane-101)
+
 ## Usage
 
 ```bash
