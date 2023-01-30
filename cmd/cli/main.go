@@ -15,6 +15,9 @@ func main() {
 	zerolog.SetGlobalLevel(zerolog.DebugLevel)
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr, NoColor: false})
 
+	// todo: temporary issues mapping
+	var issues = map[string]string{}
+
 	// instantiate kubernetes client config
 	configDefaultValues := clientcmd.NewDefaultClientConfigLoadingRules().GetDefaultFilename()
 	config, err := clientcmd.BuildConfigFromFlags("", configDefaultValues)
@@ -29,19 +32,21 @@ func main() {
 	}
 
 	k8sClient, err := k8s.NewKubernetesClient(clientset)
-
-	err = k8sClient.CheckPodsInDefaultNamespace()
-	if err != nil {
-		log.Error().Err(err).Msg("")
+	if err = k8sClient.CheckPodsInDefaultNamespace(); err != nil {
+		issues["defaultNamespace"] = err.Error()
 	}
 
-	err = k8sClient.CheckExposeControlPlane()
-	if err != nil {
-		log.Error().Err(err).Msg("")
+	if err = k8sClient.CheckExposeControlPlane(); err != nil {
+		issues["exposeControlPlane"] = err.Error()
 	}
 
-	if err == nil {
-		log.Info().Msg("Kubernetes cluster is secure")
+	if len(issues) > 0 {
+		for _, issue := range issues {
+			log.Error().Msg(issue)
+		}
+		return
 	}
+
+	log.Info().Msg("Kubernetes cluster is secure")
 
 }
