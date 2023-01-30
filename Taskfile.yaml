@@ -1,0 +1,7 @@
+version: '3'
+
+tasks:
+  unit-test:
+    - go test -v ./...
+  unit-test-report:
+    - go test ./... -race -coverprofile=coverage.txt -covermode=atomic
